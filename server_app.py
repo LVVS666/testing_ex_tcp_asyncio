@@ -16,10 +16,9 @@ def result_math(string):
 
 
 async def handle_echo(reader, writer):
-    data = await reader.read(100)
-    message = data.decode()
-    message = result_math(message)
-    writer.write(message)
+    request = (await reader.read(255)).decode('utf8')
+    response = str(result_math(request))
+    writer.write(response.encode('utf8'))
     await writer.drain()
     writer.close()
 
