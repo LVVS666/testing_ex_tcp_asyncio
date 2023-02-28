@@ -1,6 +1,5 @@
 import asyncio, socket
 
-
 def result_math(string):
     string = string.split()
     if string[1] == '+':
@@ -13,7 +12,6 @@ def result_math(string):
         return int(string[0]) / int(string[2])
     else:
         return f'Не правильно составлено выражение'
-
 
 async def handle_echo(reader, writer):
     request = (await reader.read(255)).decode('utf8')
