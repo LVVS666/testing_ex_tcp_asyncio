@@ -19,7 +19,7 @@ async def handle_echo(reader, writer):
     data = await reader.read(100)
     message = data.decode()
     message = result_math(message)
-    writer.write(data)
+    writer.write(message)
     await writer.drain()
     writer.close()
 
