@@ -2,10 +2,16 @@ import asyncio
 
 async def handle_echo(reader, writer):
     request = (await reader.read(255)).decode('utf8')
-    response = str(eval(request))
-    writer.write(response.encode('utf8'))
-    await writer.drain()
-    writer.close()
+    try:
+        response = str(eval(request))
+        writer.write(response.encode('utf8'))
+        await writer.drain()
+        writer.close()
+    except BaseException:
+        response = request + ' невалидное выражение'
+        writer.write(response.encode('utf8'))
+        await writer.drain()
+        writer.close()
 
 async def main():
     server = await asyncio.start_server(
