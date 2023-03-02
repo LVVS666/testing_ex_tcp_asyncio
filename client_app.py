@@ -7,7 +7,8 @@ logging.basicConfig(level=logging.INFO, filename="py_log_client.log",filemode="w
 math_expression = input('Введите математическое выражение: ')
 dict_math_json = {'expressions': math_expression}
 
-async def tcp_echo_client(message):
+async def tcp_echo_client(message:dict) -> str:
+    '''Отправка запроса на сервер и получение ответа'''
     try:
         reader, writer = await asyncio.open_connection(
         '127.0.0.1', 8888)

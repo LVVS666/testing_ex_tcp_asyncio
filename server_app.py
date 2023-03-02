@@ -5,6 +5,7 @@ import logging
 logging.basicConfig(level=logging.INFO, filename="py_log_server.log", filemode="w")
 
 async def handle_echo(reader, writer):
+    '''Обработка запроса от клиента и отправка ответа.'''
     request = (await reader.read(100))
     request = json.loads(request.decode())
     try:
@@ -23,6 +24,7 @@ async def handle_echo(reader, writer):
         writer.close()
 
 async def main():
+    '''Запуск сервера'''
     try:
         logging.info('Сервер работает корректно')
         server = await asyncio.start_server(
