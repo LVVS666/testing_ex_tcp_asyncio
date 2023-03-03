@@ -19,8 +19,13 @@ async def tcp_echo_client(message:dict):
         writer.write(json_message)
         request: object = await reader.read(100)
         request_data: dict = json.loads(request.decode())
-        print(f'Результат выражения: {request_data["answer"]}')
-        writer.close()
+        if 'invalid expression' not in request_data["answer"]:
+            print(f'Результат выражения: {request_data["answer"]}')
+            writer.close()
+        else:
+            logging.warning(f'Были отправлены некоректные данные, вычисление не выполнено: {datetime.now()}')
+            print('Были отправлены некоректные данные, вычисление не выполнено')
+            writer.close()
     except ConnectionRefusedError as e:
         logging.critical(f' Соеденение с сервером не установлено {datetime.now()}')
 
