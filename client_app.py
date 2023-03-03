@@ -3,8 +3,7 @@ import json
 import logging
 from datetime import datetime
 
-FORMAT = '%(asctime)s %(clientip)-15s %(user)-8s %(message)s'
-logging.basicConfig(format=FORMAT, level=logging.INFO, filename="py_log_client.log", filemode="w")
+logging.basicConfig(level=logging.INFO, filename="py_log_client.log", filemode="w")
 
 math_expression: str = input('Введите математическое выражение: ')
 dict_math_json: dict = {'expressions': math_expression}
@@ -14,7 +13,7 @@ async def tcp_echo_client(message:dict) -> str:
     try:
         reader, writer= await asyncio.open_connection(
         '127.0.0.1', 8888)
-        logging.info('Соединение с сервером успешно')
+        logging.info(f' Соединение с сервером успешно {datetime.now()}')
         print(f'Математическое выражение: {dict_math_json["expressions"]}')
         json_message: object = json.dumps(message).encode()
         writer.write(json_message)
@@ -23,6 +22,6 @@ async def tcp_echo_client(message:dict) -> str:
         print(f'Результат выражения: {request_data["answer"]}')
         writer.close()
     except ConnectionRefusedError as e:
-        logging.critical('Соеденение с сервером не установлено')
+        logging.critical(f' Соеденение с сервером не установлено {datetime.now()}')
 
 asyncio.run(tcp_echo_client(dict_math_json))
