@@ -5,7 +5,7 @@ from datetime import datetime
 
 logging.basicConfig(level=logging.INFO, filename="py_log_server.log", filemode="w")
 
-async def handle_echo(reader, writer)->str :
+async def handle_echo(reader, writer):
     '''Обработка запроса от клиента и отправка ответа.'''
     request: object = (await reader.read(100))
     request_data: dict = json.loads(request.decode())
