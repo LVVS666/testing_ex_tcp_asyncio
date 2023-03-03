@@ -18,7 +18,7 @@ async def handle_echo(reader, writer)->str :
         await writer.drain()
         writer.close()
     except NameError:
-        logging.warning(f'Невалидные данные для вычисления: {datetime.now()}')
+        logging.warning(f' Невалидные данные для вычисления: {datetime.now()}')
         response_json: dict = {"answer": request_data["expressions"] + ' invalid expression'}
         response_json_answer: object = json.dumps(response_json).encode('utf8')
         writer.write(response_json_answer)
