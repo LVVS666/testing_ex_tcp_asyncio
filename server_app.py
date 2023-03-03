@@ -3,22 +3,23 @@ import json
 import logging
 from datetime import datetime
 
-logging.basicConfig(level=logging.INFO, filename="py_log_server.log", filemode="w")
+FORMAT = '%(asctime)s %(clientip)-15s %(user)-8s %(message)s'
+logging.basicConfig(format=FORMAT, level=logging.INFO, filename="py_log_server.log", filemode="w")
 
-async def handle_echo(reader, writer):
+async def handle_echo(reader, writer: object, object)->object:
     '''Обработка запроса от клиента и отправка ответа.'''
-    request = (await reader.read(100))
-    request_data = json.loads(request.decode())
+    request: object = (await reader.read(100))
+    request_data: dict = json.loads(request.decode())
     try:
-        expressions_response = str(eval(request_data["expressions"]))
-        response_json = {"answer": expressions_response}
-        response_json_answer = json.dumps(response_json).encode()
+        expressions_response: str = str(eval(request_data["expressions"]))
+        response_json: dict = {"answer": expressions_response}
+        response_json_answer: object = json.dumps(response_json).encode()
         writer.write(response_json_answer)
         await writer.drain()
         writer.close()
     except NameError:
-        response_json = {"answer": request_data["expressions"] + ' invalid expression'}
-        response_json_answer = json.dumps(response_json).encode('utf8')
+        response_json: dict = {"answer": request_data["expressions"] + ' invalid expression'}
+        response_json_answer: object = json.dumps(response_json).encode('utf8')
         writer.write(response_json_answer)
         await writer.drain()
         writer.close()
