@@ -20,6 +20,7 @@ async def tcp_echo_client(message:dict):
         request: object = await reader.read(100)
         request_data: dict = json.loads(request.decode())
         if 'invalid expression' not in request_data["answer"]:
+            logging.info(f'Вычисления проведены удачно: {datetime.now()}')
             print(f'Результат выражения: {request_data["answer"]}')
             writer.close()
         else:
